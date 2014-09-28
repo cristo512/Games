@@ -1,0 +1,16 @@
+#ifndef BACKGROUND_H
+#define BACKGROUND_H
+class Background;
+#include <SFML/Graphics.hpp>
+#include "Game.h"
+class Background
+{
+public:
+    Background();
+    virtual ~Background();
+    sf::Sprite sprite;
+    void setTexture(sf::Texture &texture);
+protected:
+};
+
+#endif // BACKGROUND_H
