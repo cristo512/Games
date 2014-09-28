@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <algorithm>
 
 Game* globalGame;
 
@@ -12,16 +13,34 @@ float Game::average(float x, float y)
     return (x - y) / 2.f;
 }
 
+void Volleyball::loadTextures()
+{
+    headTexture.loadFromFile("./data/Player/Head.png");
+    headTexture.loadFromFile("./data/Player/Eye.png");
+    headTexture.loadFromFile("./data/Player/Pupil.png");
+    headTexture.loadFromFile("./data/Player_1/Looks.png");
+    headTexture.loadFromFile("./data/Player_1/Shoes.png");
+    headTexture.loadFromFile("./data/Player_2/Looks.png");
+    headTexture.loadFromFile("./data/Player_2/Shoes.png");
+    ballTexture.loadFromFile("./data/Ball.png");
+    bgTexture.loadFromFile("./data/Background.png");
+    netTexture.loadFromFile("./data/Net.png");
+}
+
 Game::Game()
 {
+    
+    
     sf::VideoMode videoMode;
     videoMode.getFullscreenModes();
     window.create(sf::VideoMode::getDesktopMode(), "Gra", sf::Style::Fullscreen);
-    //window.setFramerateLimit(20);
 
     setScale_Variable();
     globalGame = this;
-    clock.restart();
+	delta = 0.0f;
+	lastUpdateTime = clock.getElapsedTime().asSeconds();
+	accumulator = 0.0f;
+	clock.restart();
 
     State = new Volleyball;
 }
@@ -59,19 +78,41 @@ bool Game::onCollision(sf::Sprite &sprite1, sf::Sprite &sprite2)
     return rect1.intersects(rect2);
 }
 
+float Game::clamp(const float &what, const float& a, const float& b)
+{
+	return std::min(b, std::max(what, a));
+}
+
+bool Game::checkIfReleased()
+{
+    for(sf::Keyboard::Key key = sf::Keyboard::A; key < sf::Keyboard::KeyCount ;  key = (sf::Keyboard::Key)(((int)key)+1))
+    {
+        if(!isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
+            isKeyReleased[key] = true;
+        else if( isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
+            isKeyReleased[key] = false;
+        else if( sf::Keyboard::isKeyPressed(key))
+            isKeyReleased[key] = false;
+    }
+}
+
 void Game::Run()
 {
     while(window.isOpen())
     {
-        do{
-            delta = clock.getElapsedTime().asSeconds();
-        }while(delta < 0.018f);
-        if(delta > 0.018f)
-            delta = 0.018f;
+        delta = clock.getElapsedTime().asSeconds();
         clock.restart();
-        State->draw();
+        delta = std::max(0.f, delta);
+        accumulator += delta;
+        accumulator = clamp(accumulator, 0, maxAccumulatedTime);
+        checkIfReleased();
         while(window.pollEvent(event))
             State->checkEvent(event);
-        State->checkActions();
+        while(accumulator > timeStep)
+        {
+            State->checkActions();
+            accumulator -= timeStep;
+        }
+        State->draw();
     }
 }

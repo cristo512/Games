@@ -19,10 +19,7 @@ public:
     sf::Sprite Net;
     Background background;
 protected:
-    sf::Texture playerStay;
-    sf::Texture ballTexture;
-    sf::Texture bgTexture;
-    sf::Texture netTexture;
+    void setTextures();
     void addPlayers();
     void addBalls();
     int playersAmount;

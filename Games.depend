@@ -337,7 +337,7 @@
 	<string>
 	<vector>
 
-1411865613 d:\else\cpp\games\include\game.h
+1411933077 d:\else\cpp\games\include\game.h
 	<SFML/Graphics.hpp>
 	"gameState.h"
 	"Menu.h"
@@ -350,27 +350,28 @@
 	<SFML/Graphics.hpp>
 	"gameState.h"
 
-1411902831 source:d:\else\cpp\games\src\game.cpp
+1411935003 source:d:\else\cpp\games\src\game.cpp
 	"Game.h"
+	<algorithm>
 
-1411824862 source:d:\else\cpp\games\src\gamestate.cpp
+1411916902 source:d:\else\cpp\games\src\gamestate.cpp
 	"gameState.h"
 
 1411867958 source:d:\else\cpp\games\src\menu.cpp
 	"Menu.h"
 	"Game.h"
 
-1411901648 source:d:\else\cpp\games\src\player.cpp
+1411935294 source:d:\else\cpp\games\src\player.cpp
 	"Player.h"
 
-1411865613 d:\else\cpp\games\include\player.h
+1411937365 d:\else\cpp\games\include\player.h
 	<SFML/Graphics.hpp>
 	"Game.h"
 
-1411902099 source:d:\else\cpp\games\src\volleyball.cpp
+1411935118 source:d:\else\cpp\games\src\volleyball.cpp
 	"Volleyball.h"
 
-1411868219 d:\else\cpp\games\include\volleyball.h
+1411933100 d:\else\cpp\games\include\volleyball.h
 	<SFML/Graphics.hpp>
 	"Game.h"
 	"gameState.h"

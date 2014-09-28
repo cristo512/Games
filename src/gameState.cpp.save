@@ -10,3 +10,7 @@ gameState::~gameState()
     //dtor
 }
 
+bool gameState::isKeyReleased(sf::Keyboard::Key key)
+{
+    
+}
