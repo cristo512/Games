@@ -16,12 +16,12 @@ float Game::average(float x, float y)
 void Game::loadTextures()
 {
     headTexture.loadFromFile("./data/Player/Head.png");
-    headTexture.loadFromFile("./data/Player/Eye.png");
-    headTexture.loadFromFile("./data/Player/Pupil.png");
-    headTexture.loadFromFile("./data/Player_1/Looks.png");
-    headTexture.loadFromFile("./data/Player_1/Shoes.png");
-    headTexture.loadFromFile("./data/Player_2/Looks.png");
-    headTexture.loadFromFile("./data/Player_2/Shoes.png");
+    eyeTexture.loadFromFile("./data/Player/Eye.png");
+    pupilTexture.loadFromFile("./data/Player/Pupil.png");
+    looksTexture_1.loadFromFile("./data/Player_1/Looks.png");
+    shoesTexture_1.loadFromFile("./data/Player_1/Shoes.png");
+    looksTexture_2.loadFromFile("./data/Player_2/Looks.png");
+    shoesTexture_2.loadFromFile("./data/Player_2/Shoes.png");
     ballTexture.loadFromFile("./data/Ball.png");
     bgTexture.loadFromFile("./data/Background.png");
     netTexture.loadFromFile("./data/Net.png");
@@ -42,8 +42,8 @@ Game::Game()
 	accumulator = 0.0f;
 	clock.restart();
 
-    window.setFramerateLimit(300);
-    State = new Volleyball;
+    window.setFramerateLimit(400);
+    State = new Menu;
 }
 
 void Game::setScale_Variable()
@@ -60,22 +60,13 @@ Game::~Game()
 }
 
 
-bool Game::onMouseOver(sf::Sprite &sprite)
+bool Game::onMouseOver(sf::FloatRect rect)
 {
-    sf::FloatRect rect = sprite.getGlobalBounds();
     return rect.contains(State->mouse.getPosition().x,State->mouse.getPosition().y);
 }
 
-bool Game::onMouseOver(sf::Text &text)
+bool Game::onCollision(sf::FloatRect rect1, sf::FloatRect rect2)
 {
-    sf::FloatRect rect = text.getGlobalBounds();
-    return rect.contains(State->mouse.getPosition().x,State->mouse.getPosition().y);
-}
-
-bool Game::onCollision(sf::Sprite &sprite1, sf::Sprite &sprite2)
-{
-    sf::FloatRect rect1 = sprite1.getGlobalBounds();
-    sf::FloatRect rect2 = sprite2.getGlobalBounds();
     return rect1.intersects(rect2);
 }
 

@@ -1,0 +1,20 @@
+#ifndef SQUAREPLAYER_H
+#define SQUAREPLAYER_H
+#include <SFML/G
+
+class squarePlayer
+{
+public:
+    squarePlayer();
+    virtual ~squarePlayer();
+    sf::RectangleShape shape;
+    sf::Keyboard::Key Up;
+    sf::Keyboard::Key Down;
+    void setKeys(sf::Keyboard::Key Up, sf::Keyboard::Key Down);
+    void moveUp();
+    void moveDown();
+    float speed;
+private:
+};
+
+#endif // SQUAREPLAYER_H

@@ -2,13 +2,11 @@
 #include "Game.h"
 Menu::Menu()
 {
-    viewPosition.x = 0;
-    viewPosition.y = 0;
-
-    textAmount = 2;
+    textAmount = 3;
     text = new sf::Text [textAmount];
-    text[0].setString("Rozpocznij");
-    text[1].setString("Exit");
+    text[0].setString("Volleyball");
+    text[1].setString("Pong");
+    text[2].setString("Exit");
     font.loadFromFile("C:\\Windows\\Fonts\\MTCORSVA.ttf");
     for(int i = 0; i < textAmount; i++)
     {
@@ -58,7 +56,7 @@ void Menu::checkActions()
 {
     for(int i = 0; i < textAmount; i++)
     {
-        if(globalGame->onMouseOver(text[i]))
+        if(globalGame->onMouseOver(text[i].getGlobalBounds()))
         {
             text[i].setColor(sf::Color::Blue);
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -69,7 +67,13 @@ void Menu::checkActions()
                     globalGame->State = new Volleyball;
                     break;
                 }
-                else if(i == 1)
+                if(i == 1)
+                {
+                    delete globalGame->State;
+                    globalGame->State = new Pong;
+                    break;
+                }
+                else if(i == 2)
                     globalGame->window.close();
             }
         }

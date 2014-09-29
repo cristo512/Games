@@ -1,22 +1,27 @@
 #include "Volleyball.h"
-
+#include <cmath>
 void Volleyball::addPlayers()
 {
-    playersAmount = 1;
+    playersAmount = 2;
     player = new Player [playersAmount];
+    player[0].setLookTexture(globalGame->looksTexture_1);
+    player[0].setShoesTexture(globalGame->shoesTexture_1);
+    player[1].setLookTexture(globalGame->looksTexture_2);
+    player[1].setShoesTexture(globalGame->shoesTexture_2);
     for (int i = 0; i < playersAmount ; i++)
     {
         player[i].moveSpeed = 800.f;
         player[i].jumpSpeed = 1000.f;
-        player[i].setTextures(globalGame->headTexture, globalGame->eyeTexture, globalGame->pupilTexture);
+            player[i].setTextures(globalGame->headTexture, globalGame->eyeTexture, globalGame->pupilTexture);
+        player[i].setSpritesPosition(0,0);
+        player[i].setPlayerHeight();
     }
-    player[0].setLookTexture(globalGame->looksTexture_1);
-    player[0].setShoesTexture(globalGame->shoesTexture_1);
     player[0].setKeys(sf::Keyboard::A, sf::Keyboard::W, sf::Keyboard::D);
-    player[0].spritesSetPosition(globalGame->window.getSize().x / 5, globalGame->window.getSize().y - player[0].playerHeight);
-    //player[1].setKeys(sf::Keyboard::Left, sf::Keyboard::Up, sf::Keyboard::Right);
-    //player[1].sprite.setScale(-player[1].sprite.getScale().x, player[1].sprite.getScale().y);
-    //player[1].sprite.setPosition((4 * globalGame->window.getSize().x) / 5, globalGame->window.getSize().y - player[1].sprite.getGlobalBounds().height);
+    player[0].setSpritesPosition(globalGame->window.getSize().x / 5, globalGame->window.getSize().y - player[0].playerHeight);
+
+    player[1].setKeys(sf::Keyboard::Left, sf::Keyboard::Up, sf::Keyboard::Right);
+    player[1].setReversedPosition((4 * globalGame->window.getSize().x) / 5, globalGame->window.getSize().y - player[1].playerHeight);
+    player[1].horizontalReflection();
 }
 void Volleyball::addBalls()
 {
@@ -52,6 +57,36 @@ Volleyball::~Volleyball()
     //dtor
 }
 
+void Volleyball::setPupils()
+{
+    eye_ball_x = fabs( (player[0].eye.getPosition().x + player[0].eye.getGlobalBounds().width) / 2 - (ball[0].sprite.getPosition().x + ball[0].sprite.getGlobalBounds().width) /2 );
+    eye_ball_y = fabs( (player[0].eye.getPosition().y + player[0].eye.getGlobalBounds().height) / 2 - (ball[0].sprite.getPosition().y + ball[0].sprite.getGlobalBounds().height) /2 );
+    eye_ball = sqrt((pow(eye_ball_x, 2) + pow(eye_ball_y, 2)));
+    ballSIN =  eye_ball_x / eye_ball;
+    ballCOS = eye_ball_y / eye_ball;
+    player[0].setPupil(ballSIN, ballCOS);
+
+    eye_ball_x = fabs( (player[1].eye.getPosition().x - player[1].eye.getGlobalBounds().width) / 2 - (ball[0].sprite.getPosition().x + ball[0].sprite.getGlobalBounds().width) /2 );
+    eye_ball_y = fabs( (player[1].eye.getPosition().y - player[1].eye.getGlobalBounds().height) / 2 - (ball[0].sprite.getPosition().y + ball[0].sprite.getGlobalBounds().height) /2 );
+    eye_ball = sqrt((pow(eye_ball_x, 2) + pow(eye_ball_y, 2)));
+    ballSIN =  eye_ball_x / eye_ball;
+    ballCOS = eye_ball_y / eye_ball;
+    player[1].setPupil(ballSIN, ballCOS);
+}
+void Volleyball::moveBall()
+{
+    for(int x = 0; x < 2; x++)
+    {
+        if(globalGame->onCollision(player[x].head.getGlobalBounds(), ball[0].sprite.getGlobalBounds()))
+        {
+            ballMid = ball[0].sprite.getPosition().y + (ball[0].sprite.getGlobalBounds().height / 2);
+            playerMid = player[x].head.getPosition().y + (player[x].head.getGlobalBounds().height / 2);
+            ball[0].direction *= -1;
+            ball[0].velocity.y += 
+        }
+    }
+    ball[0].move();
+}
 
 void Volleyball::moving()
 {
@@ -76,7 +111,7 @@ void Volleyball::moving()
             player[i].velocity.y = -player[i].jumpSpeed * globalGame->timeStep;
 
         player[i].move();
-        if(globalGame->onCollision(player[i].head, Net))
+        if(globalGame->onCollision(player[i].head.getGlobalBounds(), Net.getGlobalBounds()))
             player[i].back();
     }
 }
@@ -97,6 +132,7 @@ void Volleyball::draw()
     globalGame->window.clear();
     globalGame->window.draw(background.sprite);
     player[0].draw();
+    player[1].draw();
     globalGame->window.draw(ball[0].sprite);
     globalGame->window.draw(Net);
     globalGame->window.display();
@@ -104,4 +140,6 @@ void Volleyball::draw()
 void Volleyball::checkActions()
 {
     moving();
+    moveBall();
+    setPupils();
 }

@@ -13,15 +13,15 @@ float Game::average(float x, float y)
     return (x - y) / 2.f;
 }
 
-void Volleyball::loadTextures()
+void Game::loadTextures()
 {
     headTexture.loadFromFile("./data/Player/Head.png");
-    headTexture.loadFromFile("./data/Player/Eye.png");
-    headTexture.loadFromFile("./data/Player/Pupil.png");
-    headTexture.loadFromFile("./data/Player_1/Looks.png");
-    headTexture.loadFromFile("./data/Player_1/Shoes.png");
-    headTexture.loadFromFile("./data/Player_2/Looks.png");
-    headTexture.loadFromFile("./data/Player_2/Shoes.png");
+    eyeTexture.loadFromFile("./data/Player/Eye.png");
+    pupilTexture.loadFromFile("./data/Player/Pupil.png");
+    looksTexture_1.loadFromFile("./data/Player_1/Looks.png");
+    shoesTexture_1.loadFromFile("./data/Player_1/Shoes.png");
+    looksTexture_2.loadFromFile("./data/Player_2/Looks.png");
+    shoesTexture_2.loadFromFile("./data/Player_2/Shoes.png");
     ballTexture.loadFromFile("./data/Ball.png");
     bgTexture.loadFromFile("./data/Background.png");
     netTexture.loadFromFile("./data/Net.png");
@@ -29,8 +29,8 @@ void Volleyball::loadTextures()
 
 Game::Game()
 {
-    
-    
+    loadTextures();
+
     sf::VideoMode videoMode;
     videoMode.getFullscreenModes();
     window.create(sf::VideoMode::getDesktopMode(), "Gra", sf::Style::Fullscreen);
@@ -42,7 +42,8 @@ Game::Game()
 	accumulator = 0.0f;
 	clock.restart();
 
-    State = new Volleyball;
+    window.setFramerateLimit(300);
+    State = new Pong;
 }
 
 void Game::setScale_Variable()
@@ -65,9 +66,8 @@ bool Game::onMouseOver(sf::Sprite &sprite)
     return rect.contains(State->mouse.getPosition().x,State->mouse.getPosition().y);
 }
 
-bool Game::onMouseOver(sf::Text &text)
+bool Game::onMouseOver(sf::FloatRect rect)
 {
-    sf::FloatRect rect = text.getGlobalBounds();
     return rect.contains(State->mouse.getPosition().x,State->mouse.getPosition().y);
 }
 
@@ -87,10 +87,10 @@ bool Game::checkIfReleased()
 {
     for(sf::Keyboard::Key key = sf::Keyboard::A; key < sf::Keyboard::KeyCount ;  key = (sf::Keyboard::Key)(((int)key)+1))
     {
-        if(!isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
-            isKeyReleased[key] = true;
-        else if( isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
+        if( isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
             isKeyReleased[key] = false;
+        else if(!isKeyReleased[key] && !sf::Keyboard::isKeyPressed(key))
+            isKeyReleased[key] = true;
         else if( sf::Keyboard::isKeyPressed(key))
             isKeyReleased[key] = false;
     }

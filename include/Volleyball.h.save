@@ -12,6 +12,12 @@
 class Volleyball : public gameState
 {
 public:
+    float eye_ball_x;
+    float eye_ball_y;
+    float eye_ball;
+    float ballSIN;
+    float ballCOS;
+    void setPupils();
     Volleyball();
     virtual ~Volleyball();
     Ball *ball;
@@ -25,6 +31,7 @@ protected:
     int playersAmount;
     int ballsAmount;
     void moving();
+    moveBall();
     virtual void draw();
     virtual void checkEvent(sf::Event event);
     virtual void checkActions();

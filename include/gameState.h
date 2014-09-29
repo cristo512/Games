@@ -7,10 +7,9 @@ class gameState
 {
 public:
     gameState();
-    ~gameState();
+    virtual ~gameState();
 	virtual void checkEvent(sf::Event event) = 0;
 	virtual void draw() = 0;
-	sf::Vector2f viewPosition;
     sf::Mouse mouse;
     virtual void checkActions() = 0;
 };

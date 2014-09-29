@@ -1,0 +1,38 @@
+#ifndef PONG_H
+#define PONG_H
+
+#include <SFML/Graphics.hpp>
+#include "Game.h"
+#include "gameState.h"
+#include "squarePlayer.h"
+#include "drawText.h"
+#include <vector>
+
+class Pong : public gameState
+{
+public:
+    Pong();
+    virtual ~Pong();
+    virtual void draw();
+    virtual void checkEvent(sf::Event event);
+    virtual void checkActions();
+private:
+    drawText instructions;
+    void setInstructions();
+    isInstru
+    std::vector<float> ballSpeed;
+    std::vector<sf::Vector2f> ballVelocity;
+    void moveBalls();
+    void addPlayers();
+    void addBalls();
+    std::vector<int> ballDirection;
+    squarePlayer *player;
+    sf::CircleShape ballExample;
+    std::vector<sf::CircleShape> ball;
+    int ballAmount;
+    void movePlayers();
+    float ballMid;
+    float playerMid;
+};
+
+#endif // PONG_H

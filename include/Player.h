@@ -13,8 +13,8 @@ public:
     float jumpSpeed;
     float playerHeight;
     void setTextures(sf::Texture &head_texture, sf::Texture &eye_texture, sf::Texture &pupil_texture);
+    void horizontalReflection();
     sf::Vector2f velocity;
-    //sf::Sprite sprite;
     void setLookTexture(sf::Texture &texture);
     void setShoesTexture(sf::Texture &texture);
     std::string name;
@@ -28,14 +28,20 @@ public:
     sf::Keyboard::Key Right;
     void setKeys(sf::Keyboard::Key Left, sf::Keyboard::Key Up, sf::Keyboard::Key Right);
     void draw();
-    void spritesSetPosition(float x, float y);
+    void setSpritesPosition(float x, float y);
+    void setReversedPosition(float x, float y);
     float playerX;
     float playerY;
+    void setPlayerHeight();
     sf::Sprite head;
     sf::Sprite eye;
     sf::Sprite looks;
     sf::Sprite pupil;
-    sf::Sprite shoes;
+    sf::Sprite shoes1;
+    sf::Sprite shoes2;
+    void setPupil(float ballSIN, float ballCOS);
+    float pupilDistance;
+    bool isReverse;
 private:
     void moveSprites(float x, float y);
 };

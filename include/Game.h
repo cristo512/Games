@@ -5,6 +5,7 @@
 #include "gameState.h"
 #include "Menu.h"
 #include "Volleyball.h"
+#include "Pong.h"
 
 class Game
 {
@@ -39,9 +40,8 @@ public:
     sf::Texture ballTexture;
     sf::Texture bgTexture;
     sf::Texture netTexture;
-	virtual bool onMouseOver(sf::Sprite &sprite);
-	virtual bool onMouseOver(sf::Text &text);
-	virtual bool onCollision(sf::Sprite &sprite1, sf::Sprite &sprite2);
+    bool onMouseOver(sf::FloatRect rect);
+	bool onCollision(sf::FloatRect rect1, sf::FloatRect rect2);
 
 protected:
     void loadTextures();

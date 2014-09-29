@@ -9,7 +9,11 @@ public:
     virtual ~Ball();
     void setTexture(sf::Texture &texture);
     sf::Vector2f velocity;
-    sf::Sprite sprite;
+    float speed;
+    void move();
+    const float Gravity = 1.0f;
+    int direction;
+    sf::CircleShape sprite;
 protected:
 };
 

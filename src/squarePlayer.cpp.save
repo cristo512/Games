@@ -1,0 +1,33 @@
+#include "squarePlayer.h"
+#include "Game.h"
+
+squarePlayer::squarePlayer()
+{
+    player[i].setSize(sf::Vector2f(30, 300));
+    player[i].setFillColor(sf::Color::White);
+    velocity.x = 0;
+    velocity.y = 0;
+    speed = 800.f;
+}
+
+squarePlayer::~squarePlayer()
+{
+    //dtor
+}
+
+void squarePlayer::setKeys(sf::Keyboard::Key Up, sf::Keyboard::Key Down)
+{
+    this->Up = Up;
+    this->Down = Down;
+}
+
+
+void squarePlayer::moveUp()
+{
+    shape.move(0, speed * globalGame->timeStep);
+}
+
+void squarePlayer::moveDown()
+{
+    shape.move(0, -speed * globalGame->timeStep);
+}
